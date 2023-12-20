@@ -105,6 +105,8 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   });
 // };
 // checkDogs([12, 2, 13, 4, 10, 13], [3, 5, 7, 6, 11]);
+
+
 // const eruToUsd = 1.1;
 // const euro = movements.map(function (mov) {
 //   return mov * eruToUsd;
