@@ -105,19 +105,19 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   });
 // };
 // checkDogs([12, 2, 13, 4, 10, 13], [3, 5, 7, 6, 11]);
-const eruToUsd = 1.1;
-const euro = movements.map(function (mov) {
-  return mov * eruToUsd;
-});
-console.log(euro);
+// const eruToUsd = 1.1;
+// const euro = movements.map(function (mov) {
+//   return mov * eruToUsd;
+// });
+// console.log(euro);
 
-const movemonetEuro = [];
-for (const mov of movements) movemonetEuro.push(mov * eruToUsd);
-console.log(movemonetEuro);
+// const movemonetEuro = [];
+// for (const mov of movements) movemonetEuro.push(mov * eruToUsd);
+// console.log(movemonetEuro);
 
-const euros = movements.map(mov => mov * eruToUsd);
-console.log(euros );
+// const euros = movements.map(mov => mov * eruToUsd);
+// console.log(euros );
 
-const movementDescrip = movements.map((mov,i) => `movement ${i+1}:
-you ${mov > 0? 'deposit' : 
-'withdrawal'} ${Math.abs(mov)}`) ;
+// const movementDescrip = movements.map((mov,i) => `movement ${i+1}:
+// you ${mov > 0? 'deposit' : 
+// 'withdrawal'} ${Math.abs(mov)}`) ;
