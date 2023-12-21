@@ -76,6 +76,26 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+const createUserName = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+createUserName(accounts);
+console.log(accounts);
+
+const calcNumber = function (movements) {
+  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+
+  labelBalance.textContent = `${balance} euro`;
+};
+calcNumber(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -106,7 +126,6 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // };
 // checkDogs([12, 2, 13, 4, 10, 13], [3, 5, 7, 6, 11]);
 
-
 // const eruToUsd = 1.1;
 // const euro = movements.map(function (mov) {
 //   return mov * eruToUsd;
@@ -121,5 +140,21 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // console.log(euros );
 
 // const movementDescrip = movements.map((mov,i) => `movement ${i+1}:
-// you ${mov > 0? 'deposit' : 
+// you ${mov > 0? 'deposit' :
 // 'withdrawal'} ${Math.abs(mov)}`) ;
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
+
+const withdrawal = [];
+for (const mov of movements) if (mov < 0) withdrawal.push(mov);
+console.log(withdrawal);
+
+let balance2 = 0;
+for (const mov of movements) balance2 += mov;
+
+const max = movements.reduce((acc, cur) => {
+  if (acc > cur) return acc;
+  else return cur;
+}, movements[0]);
+console.log(max);
