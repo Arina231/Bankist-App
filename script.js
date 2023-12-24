@@ -77,6 +77,24 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const displaySummary = function (movements) {
+  const income = movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${income}`;
+  const out = movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}`;
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${Math.abs(interest)}`;
+};
+displaySummary(account1.movements);
+
 const createUserName = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -143,18 +161,35 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // you ${mov > 0? 'deposit' :
 // 'withdrawal'} ${Math.abs(mov)}`) ;
 
-const withdrawals = movements.filter(mov => mov < 0);
-console.log(withdrawals);
+//
+// let balance2 = 0;
+// for (const mov of movements) balance2 += mov;
 
-const withdrawal = [];
-for (const mov of movements) if (mov < 0) withdrawal.push(mov);
-console.log(withdrawal);
+// const max = movements.reduce((acc, cur) => {
+//   if (acc > cur) return acc;
+//   else return cur;
+// }, movements[0]);
+// console.log(max);
 
-let balance2 = 0;
-for (const mov of movements) balance2 += mov;
+// const calcAgeAvg = function (ages) {
+//   const humanAge = ages.map(age => (age < 2 ? 2 * age : 16 + age * 2));
+//   console.log(humanAge);
 
-const max = movements.reduce((acc, cur) => {
-  if (acc > cur) return acc;
-  else return cur;
-}, movements[0]);
-console.log(max);
+//   const avge = humanAge.reduce((acc, age) => acc + age, 0) / humanAge.length;
+//   console.log(avge);
+// };
+// calcAgeAvg([5, 8, 2, 1, 11, 15]);
+// const eruToUsd = 1.1;
+// const totaldepo = movements
+//   .filter(mov => mov > 0)
+//   .map((mov, i, arr) => {
+//     // console.log(arr);
+//     return mov * eruToUsd;
+//   })
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(totaldepo);
+let newAcc = null;
+for (const account of accounts) {
+  if (account.owner === `J essica Davis`) newAcc = account;
+}
+console.log(newAcc);
