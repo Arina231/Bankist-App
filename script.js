@@ -75,25 +75,22 @@ const displayMovements = function (movements) {
   });
 };
 
-displayMovements(account1.movements);
-
-const displaySummary = function (movements) {
-  const income = movements
+const displaySummary = function (acc) {
+  const income = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumIn.textContent = `${income}`;
-  const out = movements
+  const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
   labelSumOut.textContent = `${Math.abs(out)}`;
-  const interest = movements
+  const interest = acc.movements
     .filter(mov => mov > 0)
-    .map(deposit => (deposit * 1.2) / 100)
+    .map(deposit => (deposit * acc.interestRate) / 100)
     .filter(int => int >= 1)
     .reduce((acc, int) => acc + int, 0);
   labelSumInterest.textContent = `${Math.abs(interest)}`;
 };
-displaySummary(account1.movements);
 
 const createUserName = function (accs) {
   accs.forEach(function (acc) {
@@ -107,13 +104,42 @@ const createUserName = function (accs) {
 createUserName(accounts);
 console.log(accounts);
 
-const calcNumber = function (movements) {
+const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, cur) => acc + cur, 0);
 
-  labelBalance.textContent = `${balance} euro`;
+  labelBalance.textContent = `${balance}`;
 };
-calcNumber(account1.movements);
 
+///event handler
+
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    //display UI welcome message
+    labelWelcome.textContent = `Welcome, ${currentAccount.owner.split(' ')[0]}`;
+    containerApp.style.opacity = 100;
+
+    ///clear input name and pin
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    //display movements
+    displayMovements(currentAccount.movements);
+
+    //display balance
+    calcDisplayBalance(currentAccount.movements);
+
+    //display summary
+    displaySummary(currentAccount);
+  }
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -188,8 +214,8 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   })
 //   .reduce((acc, mov) => acc + mov, 0);
 // console.log(totaldepo);
-let newAcc = null;
-for (const account of accounts) {
-  if (account.owner === `J essica Davis`) newAcc = account;
-}
-console.log(newAcc);
+// let newAcc = null;
+// for (const account of accounts) {
+//   if (account.owner === `J essica Davis`) newAcc = account;
+// }
+// console.log(newAcc);
