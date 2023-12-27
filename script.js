@@ -137,7 +137,7 @@ btnLogin.addEventListener('click', function (e) {
     calcDisplayBalance(currentAccount.movements);
 
     //display summary
-    // displaySummary(currentAccount);
+    displaySummary(currentAccount);
   }
 });
 /////////////////////////////////////////////////
