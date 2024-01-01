@@ -218,4 +218,4 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 // for (const account of accounts) {
 //   if (account.owner === `J essica Davis`) newAcc = account;
 // }
-console.log(newAcc);
+// console.log(newAcc);
