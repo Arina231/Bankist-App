@@ -204,18 +204,18 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 //   const avge = humanAge.reduce((acc, age) => acc + age, 0) / humanAge.length;
 //   console.log(avge);
 // };
-calcAgeAvg([5, 8, 2, 1, 11, 15]);
-const eruToUsd = 1.1;
-const totaldepo = movements
-  .filter(mov => mov > 0)
-  .map((mov, i, arr) => {
-    // console.log(arr);
-    return mov * eruToUsd;
-  })
-  .reduce((acc, mov) => acc + mov, 0);
-console.log(totaldepo);
-let newAcc = null;
-for (const account of accounts) {
-  if (account.owner === `J essica Davis`) newAcc = account;
-}
-console.log(newAcc);
+// calcAgeAvg([5, 8, 2, 1, 11, 15]);
+// const eruToUsd = 1.1;
+// const totaldepo = movements
+//   .filter(mov => mov > 0)
+//   .map((mov, i, arr) => {
+//     // console.log(arr);
+//     return mov * eruToUsd;
+//   })
+//   .reduce((acc, mov) => acc + mov, 0);
+// console.log(totaldepo);
+// let newAcc = null;
+// for (const account of accounts) {
+//   if (account.owner === `J essica Davis`) newAcc = account;
+// }
+// console.log(newAcc);
