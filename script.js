@@ -284,3 +284,16 @@ const currencies = new Map([
 //   if (account.owner === `J essica Davis`) newAcc = account;
 // }
 // console.log(newAcc);
+const x = new Array(7);
+x.fill(1, 5, 7);
+console.log(x);
+
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y);
+const z = Array.from({ length: 7 }, (cur, i) => i + 1);
+console.log(z);
+labelBalance.addEventListener('click', function () {
+  const moveUI = Array.from(document.querySelectorAll('.movements__value'));
+
+  console.log(moveUI.map(ele => ele.textContent));
+});
