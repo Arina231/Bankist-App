@@ -297,3 +297,4 @@ labelBalance.addEventListener('click', function () {
 
   console.log(moveUI.map(ele => ele.textContent));
 });
+ 
