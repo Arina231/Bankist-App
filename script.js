@@ -297,4 +297,29 @@ labelBalance.addEventListener('click', function () {
 
   console.log(moveUI.map(ele => ele.textContent));
 });
- 
+
+const { deposites, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      cur > 0 ? (sums.deposites += cur) : (sums.withdrawals += cur);
+      return sums;
+    },
+    { deposites: 0, withdrawals: 0 }
+  );
+
+console.log(deposites, withdrawals);
+
+const convertCase = function (tittle) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+  const exception = ['a', 'an', 'the', 'but', 'and'];
+  const tittleCase = tittle
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exception.includes(word) ? word : capitalize(word)))
+    .join(' ');
+  return capitalize(tittleCase);
+};
+
+console.log(convertCase('this is a nice but long title'));
+console.log(convertCase('and this is a nice but long title'));
