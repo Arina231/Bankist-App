@@ -94,6 +94,13 @@ const formatDate = function (date, locale) {
   return new Intl.DateTimeFormat(locale).format(date);
 };
 
+const formatCur = function (value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
+};
+
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -106,11 +113,13 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatDate(date, acc.locale);
 
+    const formattedMov = formatCur(mov, acc.locale, acc.currency);
+
     const html = `<div class="movements__row">
     <div class="movements__type movements__type--${type}">${i + 1}
      ${type}</div>
      <div class="movements__date">${displayDate}</div>
-    <div class="movements__value"> ${mov.toFixed(2)}</div>
+    <div class="movements__value"> ${formattedMov}</div>
     </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -120,24 +129,24 @@ const calcDisplayBalance = function (acc) {
   const balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
   acc.balance = balance;
 
-  labelBalance.textContent = `${acc.balance.toFixed(2)}$`;
+  labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 };
 
 const displaySummary = function (acc) {
   const income = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${income.toFixed(2)}`;
+  labelSumIn.textContent = formatCur(income, acc.locale, acc.currency);
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}`;
+  labelSumOut.textContent = formatCur(Math.abs(out), acc.locale, acc.currency);
   const interest = acc.movements
     .filter(mov => mov > 0)
     .map(deposit => (deposit * acc.interestRate) / 100)
     .filter(int => int >= 1)
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${Math.abs(interest).toFixed(2)}`;
+  labelSumInterest.textContent = formatCur(interest, acc.locale, acc.currency);
 };
 
 const createUserName = function (accs) {
@@ -162,6 +171,20 @@ const updateUI = function (acc) {
   //display summary
   displaySummary(acc);
 };
+const logOutTimer = function () {
+  ///set time to 5 min
+  let time = 100;
+  ///call the timer every second
+  setInterval(function () {
+    ///display time to ui
+    labelTimer.textContent = time;
+
+    //decrese 1s
+    time--;
+    //when o second stop timer and logout
+  }, 1000);
+};
+//////////////////////////////////////
 ///event handler
 
 let currentAccount;
@@ -209,6 +232,7 @@ btnLogin.addEventListener('click', function (e) {
     ///clear input name and pin
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+    logOutTimer;
 
     updateUI(currentAccount);
   }
@@ -246,15 +270,18 @@ btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Math.floor(inputLoanAmount.value);
   if (amount > 0 && currentAccount.movements.some(mov => amount / 10)) {
-    //add the loan
-    currentAccount.movements.push(amount);
+    setTimeout(function () {
+      //add the loan
+      currentAccount.movements.push(amount);
 
-    /// add  loan date
-    currentAccount.movementsDates.push(new Date().toISOString());
+      /// add  loan date
+      currentAccount.movementsDates.push(new Date().toISOString());
 
-    //update UI
-    updateUI(currentAccount);
+      //update UI
+      updateUI(currentAccount);
+    }, 2500);
   }
+  inputLoanAmount.value = '';
 });
 
 btnClose.addEventListener('click', function (e) {
@@ -285,3 +312,10 @@ btnSort.addEventListener('click', function (e) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+
+// setInterval(function () {
+//   const now = new Date();
+//   const hour = `${now.getHours()}`;
+//   const min = `${now.getMinutes()}`;
+//   console.log(`${now} , ${hour}:${min}`);
+// }, 1000);
