@@ -172,22 +172,32 @@ const updateUI = function (acc) {
   displaySummary(acc);
 };
 const logOutTimer = function () {
-  ///set time to 5 min
-  let time = 100;
-  ///call the timer every second
-  setInterval(function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
     ///display time to ui
-    labelTimer.textContent = time;
+    labelTimer.textContent = `${min}:${sec}`;
 
+    //when o second stop timer and logout user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
     //decrese 1s
     time--;
-    //when o second stop timer and logout
-  }, 1000);
+  };
+  ///set time to 5 min
+  let time = 120;
+  ///call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
 };
 //////////////////////////////////////
 ///event handler
 
-let currentAccount;
+let currentAccount, timer;
 // /////fake login
 // currentAccount = account1;
 // updateUI(currentAccount);
@@ -232,7 +242,8 @@ btnLogin.addEventListener('click', function (e) {
     ///clear input name and pin
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-    logOutTimer;
+    if (timer) clearInterval(timer);
+    timer = logOutTimer();
 
     updateUI(currentAccount);
   }
@@ -263,6 +274,9 @@ btnTransfer.addEventListener('click', function (e) {
 
     /////update ui
     updateUI(currentAccount);
+    //Reset timer
+    clearInterval(timer);
+    timer = logOutTimer();
   }
 });
 //// loan part
@@ -279,6 +293,9 @@ btnLoan.addEventListener('click', function (e) {
 
       //update UI
       updateUI(currentAccount);
+      //Reset timer
+      clearInterval(timer);
+      timer = logOutTimer();
     }, 2500);
   }
   inputLoanAmount.value = '';
